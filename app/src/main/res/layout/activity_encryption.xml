@@ -1,18 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".EncryptionActivity">
 
+
+    <EditText
+        android:id="@+id/keyText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter 16 digit key"
+        android:maxLength="16"
+        android:maxLines="1"
+        android:textSize="15sp"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/encryptData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Text to Encrypt"
+        android:maxLines="1"
+        android:focusableInTouchMode="false"
+        android:padding="10dp"
+        android:textSize="15sp"
+        />
+
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Add Image"
+        android:layout_margin="20dp"
+        android:includeFontPadding="false"
+        android:textSize="15sp"
+        android:maxLines="1"
+        />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        tools:srcCompat = "@tools:sample/avatars"
+        />
+
+    <Button
+        android:id="@+id/encryptBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Encryption"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:text="Encrypt"
+        android:textAllCaps="false"
+        android:fontFamily="monospace"
+        android:textColor="@color/white"
+        android:backgroundTint="#6495ED"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
