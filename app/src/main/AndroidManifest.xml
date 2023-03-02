@@ -17,6 +17,12 @@
         android:theme="@style/Theme.Encrypto"
         tools:targetApi="31">
         <activity
+            android:name=".DecryptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EncryptionActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
