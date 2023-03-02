@@ -2,6 +2,7 @@ package com.example.shandilya.encrypto
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,19 @@ class MainActivity : AppCompatActivity() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
             && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_PERMISSION)
+        }
+
+        encrypt = findViewById<Button>(R.id.encrypt) as Button
+        decrypt = findViewById<Button>(R.id.decrypt) as Button
+
+        encrypt!!.setOnClickListener(){
+            intent = Intent(this,EncryptionActivity::class.java)
+            startActivity(intent)
+        }
+
+        decrypt!!.setOnClickListener(){
+            intent = Intent(this,DecryptionActivity::class.java)
+            startActivity(intent)
         }
     }
 
