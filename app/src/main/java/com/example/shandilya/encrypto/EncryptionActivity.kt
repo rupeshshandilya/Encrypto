@@ -15,6 +15,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import javax.crypto.SecretKey
+import java.security.Key
+import android.util.Base64
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
 
 class EncryptionActivity : AppCompatActivity() {
 
@@ -62,7 +67,53 @@ class EncryptionActivity : AppCompatActivity() {
         }
 
 
+        //Encrypting data into image
+        encryptBtn!!.setOnClickListener {
+            if(key!!.text.toString().length == 16){
+                if(encryptData!!.text.toString().length > 0){
+                    if(bitMap != null){
+                        Thread{
+                            runOnUiThread{dialog.show()}
+                            //Encrypt data using AES
+                            val data: String = encryptData()
 
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+    }
+
+    private fun encryptData(): String{
+        val key = key!!.text.toString()
+        val data = encryptData!!.text.toString()
+
+        val seckey: Key = SecretKeySpec(key.toByteArray(), "AES")
+
+        val cipher = Cipher.getInstance("AES")
+        cipher.init(Cipher.ENCRYPT_MODE, seckey)
+
+        val encrypt = cipher.doFinal(data.toByteArray())
+
+
+        //Converting Encrypted data to BASE_64
+        val encrypt_64 = android.util.Base64.encodeToString(encrypt, Base64.NO_WRAP or Base64.NO_PADDING)
+
+
+        for(index in encrypt_64){
+            var binaryString = Integer.toBinaryString((index.toInt()))
+            if(binaryString.length < 8){
+                for(index2 in 1..(8-binaryString.length)){
+                    binaryString = "0" + binaryString
+                }
+            }
+
+            string = binaryString + string
+        }
+        return string.toString()
     }
 
     private fun show_input_dialog(){
