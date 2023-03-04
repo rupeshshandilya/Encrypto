@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/keyText"
+        android:id="@+id/key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter 16 digit key"
@@ -34,6 +34,7 @@
         />
 
     <TextView
+        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Add Image"
