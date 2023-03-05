@@ -5,13 +5,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.MediaStore.Video.Media
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -109,7 +112,31 @@ class EncryptionActivity : AppCompatActivity() {
         if(resultCode == RESULT_OK){
             data?.data?.let { uri ->
                 try{
-                    
+                    //bitMap Creation
+                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                    val cursor: Cursor? = contentResolver.query(
+                        uri,
+                        filePathColumn, null, null,null
+                    )
+                    cursor!!.moveToFirst()
+                    val columnIndex: Int = cursor!!.getColumnIndex(filePathColumn[0])
+                    val picturePath: String = cursor.getString(columnIndex)
+                    cursor.close()
+
+                    val options = BitmapFactory.Options().apply{
+                        inJustDecodeBounds = true
+                    }
+
+                    BitmapFactory.decodeFile(picturePath,options)
+
+                    //resize image
+                    options.inSampleSize = calculateInSampleSize(options, 400, 400)
+                    options.inJustDecodeBounds= false
+                    bitMap = BitmapFactory.decodeFile(picturePath,options)
+
+                    imageView!!.setImageBitmap(bitMap)
+                    imageView!!.visibility = View.VISIBLE
+                    image!!.setText("Change Image!!")
                 }
                 catch (e: Exception){
                     Toast.makeText(this,"image is not selected try again please!",Toast.LENGTH_SHORT).show()
@@ -117,6 +144,26 @@ class EncryptionActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+
+        return inSampleSize
     }
 
     private  fun saveMediaFile(bitMap : Bitmap){
