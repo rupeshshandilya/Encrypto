@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import javax.crypto.SecretKey
 import java.security.Key
 import android.util.Base64
+import android.util.Log
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 
@@ -28,6 +29,7 @@ class EncryptionActivity : AppCompatActivity() {
     private  var image: TextView?=null
     private  var encryptBtn: Button?=null
     private var string: String?=""
+    //for storing graphics
     private var bitMap: Bitmap?=null
     private  var imageView: ImageView?=null
     private var builder: AlertDialog.Builder?=null
@@ -52,7 +54,7 @@ class EncryptionActivity : AppCompatActivity() {
         val dialog: Dialog = builder!!.create()
 
         encryptData!!.setOnClickListener{
-            show_input_dialog()
+            inputDialog()
         }
 
         //Adding image in data
@@ -77,6 +79,12 @@ class EncryptionActivity : AppCompatActivity() {
                             //Encrypt data using AES
                             val data: String = encryptData()
 
+                            val map: Bitmap = hideData(data, bitMap!!)
+                            //reset encrypted data
+                            string=""
+                            //save encrypted image to device
+                            saveMediaFile(map)
+
                         }
                     }
                 }
@@ -85,6 +93,85 @@ class EncryptionActivity : AppCompatActivity() {
 
 
 
+    }
+
+    private  fun saveMediaFile(bitMap : Bitmap){
+        
+    }
+
+    private fun hideData(data: String, bitMap: Bitmap):Bitmap{
+        val string = "0001011100011110"
+        val startingString = "011010010110111001100110011010010110111001101001"
+
+        val encodeString = data + string + startingString
+
+        val width = bitMap.getWidth()
+        val height = bitMap.getHeight()
+
+
+        val array = IntArray(width * height)
+        bitMap.getPixels(array, 0, width, 0, 0, width, height)
+        Log.e("width",width.toString())
+        Log.e("height", height.toString())
+
+        var count = 0
+
+        //Modifying pixel data by encoded string
+        for(x in 0 until height){
+            if(count > encodeString!!.length-1){
+                break
+            }
+            else{
+                for(y in 0 until width){
+                    if(count > encodeString!!.length-1){
+                        break
+                    }
+                    else{
+                        val index: Int = x * width + y
+
+                        //bitwise shifting
+                        var R: Int = array.get(index) shr 16 and 0xff
+                        var G: Int = array.get(index) shr 8 and 0xff
+                        var B: Int = array.get(index) and 0xff
+
+                        R = encode(R,count,encodeString)
+                        count++
+
+                        if(count < encodeString!!.length){
+                            G = encode(G,count,encodeString)
+                            count++
+                        }
+                        if(count < encodeString!!.length){
+                            B = encode(B,count,encodeString)
+                            count++
+                        }
+
+                        //storing modified rgb value
+                        array[index] = -0x1000000 or (R shl 16) or (G shl 8) or B
+                    }
+                }
+            }
+        }
+
+        val newBitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
+        //creating bitmap of modified pixel
+        newBitmap.setPixels(array,0, width, 0, 0, width, height)
+        return newBitmap
+    }
+
+
+    //encoding into RGB
+    private fun encode(color: Int, count: Int, encodeString: String): Int{
+        var binary = Integer.toBinaryString(color)
+        if(binary.length < 8){
+            for(x in 1 .. (8-binary.length)){
+                binary = "0" + binary
+            }
+        }
+
+        binary = binary.slice(0 .. (binary.length - 2)) + encodeString!![count]
+
+        return Integer.parseInt(binary, 2)
     }
 
     private fun encryptData(): String{
@@ -116,7 +203,7 @@ class EncryptionActivity : AppCompatActivity() {
         return string.toString()
     }
 
-    private fun show_input_dialog(){
+    private fun inputDialog(){
         val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
         dialog.setTitle("Encrypt Data")
         dialog.setMessage("Enter data you want to encrypt")
