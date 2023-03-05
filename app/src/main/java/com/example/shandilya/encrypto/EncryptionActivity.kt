@@ -1,12 +1,16 @@
 package com.example.shandilya.encrypto
 
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +23,13 @@ import javax.crypto.SecretKey
 import java.security.Key
 import android.util.Base64
 import android.util.Log
+import android.widget.Toast
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
+import kotlin.math.round
 
 class EncryptionActivity : AppCompatActivity() {
 
@@ -95,8 +104,56 @@ class EncryptionActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK){
+            data?.data?.let { uri ->
+                try{
+                    
+                }
+                catch (e: Exception){
+                    Toast.makeText(this,"image is not selected try again please!",Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
     private  fun saveMediaFile(bitMap : Bitmap){
-        
+        try{
+            val fileName = "${System.currentTimeMillis()}.png"
+            var fos: OutputStream? = null
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                contentResolver?.also { resolver ->
+                    val contentValue = ContentValues().apply {
+                        put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                        put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+                        put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                    }
+                    val imageUri: Uri?= resolver.insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, contentValue)
+                    fos = imageUri?.let { resolver.openOutputStream(it) }
+                    runOnUiThread{
+                        Toast.makeText(this,"Image Saved to External Storage!",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else{
+                val imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                val image = File(imageDir, fileName)
+                fos = FileOutputStream(image)
+                runOnUiThread{
+                    Toast.makeText(this,"Image saved in $imageDir",Toast.LENGTH_SHORT).show()
+                }
+            }
+            fos?.use {
+                bitMap.compress(Bitmap.CompressFormat.PNG,100,it)
+            }
+        } catch (e: Exception){
+            e.printStackTrace()
+            runOnUiThread{
+                Toast.makeText(this,"Error Image not Saved!!",Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun hideData(data: String, bitMap: Bitmap):Bitmap{
