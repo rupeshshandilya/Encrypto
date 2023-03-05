@@ -128,7 +128,6 @@ class EncryptionActivity : AppCompatActivity() {
                     }
 
                     BitmapFactory.decodeFile(picturePath,options)
-
                     //resize image
                     options.inSampleSize = calculateInSampleSize(options, 400, 400)
                     options.inJustDecodeBounds= false
