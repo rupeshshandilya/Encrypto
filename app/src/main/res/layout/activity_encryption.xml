@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/black"
     android:orientation="vertical"
     tools:context=".EncryptionActivity">
 
@@ -16,14 +16,20 @@
         android:hint="Enter 16 digit key"
         android:maxLength="16"
         android:maxLines="1"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:textSize="15sp"
+        android:background="@color/white"
         android:layout_margin="20dp"
         android:padding="10dp"
         android:inputType="textPassword"/>
 
     <EditText
         android:id="@+id/encryptData"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="Text to Encrypt"
@@ -38,6 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Add Image"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:background="@color/white"
         android:layout_margin="20dp"
         android:includeFontPadding="false"
         android:textSize="15sp"
