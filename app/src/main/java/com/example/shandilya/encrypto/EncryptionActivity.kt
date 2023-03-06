@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.MediaStore.Video.Media
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -22,7 +21,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import javax.crypto.SecretKey
 import java.security.Key
 import android.util.Base64
 import android.util.Log
@@ -32,7 +30,6 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
-import kotlin.math.round
 
 class EncryptionActivity : AppCompatActivity() {
 
@@ -46,6 +43,7 @@ class EncryptionActivity : AppCompatActivity() {
     private  var imageView: ImageView?=null
     private var builder: AlertDialog.Builder?=null
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_encryption)
@@ -58,11 +56,10 @@ class EncryptionActivity : AppCompatActivity() {
         builder = AlertDialog.Builder(this)
 
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val dialogView: View = inflater.inflate(R.layout.progressbar, null)
+        val dialogView: View = inflater.inflate(R.layout.inputdialog, null)
         builder!!.setView(dialogView)
-        builder!!.setTitle("Encrytping...")
+        builder!!.setTitle("Encrypting...")
         builder!!.setCancelable(false)
-
         val dialog: Dialog = builder!!.create()
 
         encryptData!!.setOnClickListener{
@@ -96,17 +93,27 @@ class EncryptionActivity : AppCompatActivity() {
                             string=""
                             //save encrypted image to device
                             saveMediaFile(map)
-
-                        }
+                            runOnUiThread{
+                                dialog.dismiss()
+                            }
+                        }.start()
+                    }
+                    else{
+                        Toast.makeText(this,"Add image First",Toast.LENGTH_SHORT).show()
                     }
                 }
+                else{
+                    Toast.makeText(this,"Add some text you want to encrypt",Toast.LENGTH_SHORT).show()
+                }
+            }
+            else{
+                val keySize = key!!.text.toString().length
+                Toast.makeText(this,"Key must be size of 16 not $keySize", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
@@ -169,7 +176,6 @@ class EncryptionActivity : AppCompatActivity() {
         try{
             val fileName = "${System.currentTimeMillis()}.png"
             var fos: OutputStream? = null
-
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
                 contentResolver?.also { resolver ->
                     val contentValue = ContentValues().apply {
@@ -177,7 +183,7 @@ class EncryptionActivity : AppCompatActivity() {
                         put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
                         put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
                     }
-                    val imageUri: Uri?= resolver.insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, contentValue)
+                    val imageUri: Uri?= resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValue)
                     fos = imageUri?.let { resolver.openOutputStream(it) }
                     runOnUiThread{
                         Toast.makeText(this,"Image Saved to External Storage!",Toast.LENGTH_SHORT).show()
@@ -206,7 +212,7 @@ class EncryptionActivity : AppCompatActivity() {
         val string = "0001011100011110"
         val startingString = "011010010110111001100110011010010110111001101001"
 
-        val encodeString = data + string + startingString
+        val encodeString = startingString + data + string
 
         val width = bitMap.getWidth()
         val height = bitMap.getHeight()
@@ -214,8 +220,6 @@ class EncryptionActivity : AppCompatActivity() {
 
         val array = IntArray(width * height)
         bitMap.getPixels(array, 0, width, 0, 0, width, height)
-        Log.e("width",width.toString())
-        Log.e("height", height.toString())
 
         var count = 0
 
@@ -274,7 +278,8 @@ class EncryptionActivity : AppCompatActivity() {
 
         binary = binary.slice(0 .. (binary.length - 2)) + encodeString!![count]
 
-        return Integer.parseInt(binary, 2)
+        val output = Integer.parseInt(binary, 2)
+        return output
     }
 
     private fun encryptData(): String{
@@ -290,8 +295,7 @@ class EncryptionActivity : AppCompatActivity() {
 
 
         //Converting Encrypted data to BASE_64
-        val encrypt_64 = android.util.Base64.encodeToString(encrypt, Base64.NO_WRAP or Base64.NO_PADDING)
-
+        val encrypt_64 = Base64.encodeToString(encrypt, Base64.NO_WRAP or Base64.NO_PADDING)
 
         for(index in encrypt_64){
             var binaryString = Integer.toBinaryString((index.toInt()))
@@ -301,7 +305,7 @@ class EncryptionActivity : AppCompatActivity() {
                 }
             }
 
-            string = binaryString + string
+            string =  string + binaryString
         }
         return string.toString()
     }
