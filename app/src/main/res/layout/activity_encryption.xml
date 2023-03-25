@@ -73,7 +73,7 @@
         android:textAllCaps="false"
         android:fontFamily="monospace"
         android:textColor="@color/white"
-        android:backgroundTint="#6495ED"
+        android:backgroundTint="@color/colorAccent"
         />
 
 </LinearLayout>
