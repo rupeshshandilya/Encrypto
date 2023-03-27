@@ -57,7 +57,7 @@
         android:scrollbars="vertical">
 
         <TextView
-            android:id="@+id/decoded_txt"
+            android:id="@+id/decodedText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -69,7 +69,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/encryptBtn"
+        android:id="@+id/decryptBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
