@@ -56,7 +56,7 @@ class EncryptionActivity : AppCompatActivity() {
         builder = AlertDialog.Builder(this)
 
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val dialogView: View = inflater.inflate(R.layout.inputdialog, null)
+        val dialogView: View = inflater.inflate(R.layout.progressbar, null)
         builder!!.setView(dialogView)
         builder!!.setTitle("Encrypting...")
         builder!!.setCancelable(false)
