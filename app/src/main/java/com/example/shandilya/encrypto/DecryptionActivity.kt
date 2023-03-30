@@ -12,6 +12,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -28,9 +29,14 @@ class DecryptionActivity : AppCompatActivity() {
     private var decodeText: TextView?= null
     private var decryptButton: Button? = null
     private var bitMap: Bitmap? = null
+    private var decodeString: String = ""
+
 
     //For Dialog Box
     private var builder: AlertDialog.Builder? = null
+
+    //to check whether data is present in image
+    private var dataPresent: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +61,21 @@ class DecryptionActivity : AppCompatActivity() {
             Toast.makeText(this,"text copied",Toast.LENGTH_SHORT).show()
         }
 
+        decryptButton!!.setOnClickListener {
+            if(key!!.text.toString().length == 16){
+                if(bitMap == null){
+                    Thread{
+                        this.runOnUiThread{
+                            dialog.show()
+                            extractImage(bitMap!!)
+                        }
+
+                    }
+                }
+            }
+        }
+
+
         decryptImage!!.setOnClickListener {
             //For Opening Gallery
             try{
@@ -69,6 +90,33 @@ class DecryptionActivity : AppCompatActivity() {
             catch (e: Exception){
                 Toast.makeText(this,"Failed to Open Gallery😔",Toast.LENGTH_SHORT).show()
                 e.printStackTrace()
+            }
+        }
+    }
+
+    private fun extractImage(bitMap: Bitmap){
+        val width: Int = bitMap.getWidth()
+        val height: Int = bitMap.getHeight()
+        var array = IntArray(width*height)
+        bitMap.getPixels(array,0,width,0,0,width,height)
+
+        Log.i("width",width.toString())
+        Log.i("height",height.toString())
+
+        var count = 0
+        var check = 1
+
+        for(x in 0 until height){
+            if((check == 1) && (dataPresent == 1)){
+                for(y in 0 until width){
+                    val index: Int = x * width + y
+                    //bitwise shifting
+                    val R: Int = array.get(index) shr 16 and 0xff
+                    val G: Int = array.get(index) shr 16 and 0xff
+                    val B:Int = array.get(index) and 0xff
+
+
+                }
             }
         }
     }
