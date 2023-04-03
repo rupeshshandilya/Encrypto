@@ -20,8 +20,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.IntegerRes
 import androidx.appcompat.app.AlertDialog
 import java.io.ByteArrayOutputStream
+import java.time.Duration
 
 class DecryptionActivity : AppCompatActivity() {
     private var key: EditText? = null
@@ -30,6 +32,10 @@ class DecryptionActivity : AppCompatActivity() {
     private var decryptButton: Button? = null
     private var bitMap: Bitmap? = null
     private var decodeString: String = ""
+
+
+    //To Check Whether image is valid or not
+    private val validImage = "011010010110111001100110011010010110111001101001"
 
 
     //For Dialog Box
@@ -58,12 +64,12 @@ class DecryptionActivity : AppCompatActivity() {
             val clipManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText("text",decodeText!!.text.toString())
             clipManager.setPrimaryClip(clipData)
-            Toast.makeText(this,"text copied",Toast.LENGTH_SHORT).show()
+            showToast("Text Copied", Toast.LENGTH_SHORT)
         }
 
         decryptButton!!.setOnClickListener {
             if(key!!.text.toString().length == 16){
-                if(bitMap == null){
+                if(bitMap != null){
                     Thread{
                         this.runOnUiThread{
                             dialog.show()
@@ -88,7 +94,6 @@ class DecryptionActivity : AppCompatActivity() {
 
             }
             catch (e: Exception){
-                Toast.makeText(this,"Failed to Open Gallery😔",Toast.LENGTH_SHORT).show()
                 e.printStackTrace()
             }
         }
@@ -115,12 +120,81 @@ class DecryptionActivity : AppCompatActivity() {
                     val G: Int = array.get(index) shr 16 and 0xff
                     val B:Int = array.get(index) and 0xff
 
+                    if(terminating(count) or (dataPresent == 0)){
+                        check = 0
+                        break
+                    }
+                    else{
+                        terminatingDecode(R,count)
+                        count++
+                    }
+
+                    if(terminating(count) or (dataPresent == 0)){
+                        check = 0
+                        break
+                    }
+                    else{
+                        terminatingDecode(G,count)
+                        count++
+                    }
+
+                    if(terminating(count) or (dataPresent == 0)){
+                        check = 0
+                        break
+                    }
+                    else{
+                        terminatingDecode(B,count)
+                        count++
+                    }
+
+                    //To Restore Values after RGB modification
+                    array[index] = -0x1000000 or (R shl 16) or (G shl 8) or B
 
                 }
+            }
+            else{
+                break
             }
         }
     }
 
+    //For Decoding RGB Pixel Value and Least Significant Bit
+    private fun terminatingDecode(color: Int, count: Int){
+        val binary_To_String = Integer.toBinaryString(color)
+        decodeString = decodeString + binary_To_String[binary_To_String-1]
+
+        if(decodeString!!.length==48){
+            if(decodeString!=validImage){
+                //Data is not present
+                dataPresent = 0
+            }
+        }
+
+        if(decodeString.length%8==0){
+            val Toint = Integer.parseInt(decodeString.slice(decodeString-8..decodeString.length-1),2)
+        }
+    }
+
+    //Checking Terminating Symbol
+    private fun terminating(count: Int):Boolean{
+        var output = false
+        if(decodeString.length>=16){
+            val terminate1 = decodeString.slice(decodeString.length - 16 .. decodeString.length-9)
+            val terminateInt = Integer.parseInt(terminate1,2)
+            val terminat2  = decodeString.slice(decodeString.length - 8 .. decodeString.length-1)
+            val terminate2Int = Integer.parseInt(terminat2,2)
+            if((terminateInt == 23) and (terminate2Int == 30)){
+                decodeString = decodeString.slice(48..decodeString.length-16)
+                output = true
+            }
+        }
+        return output;
+    }
+
+    //For Generating Toast Message
+    fun Context.showToast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT){
+        Toast.makeText(this,message,duration).show()
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
@@ -129,10 +203,10 @@ class DecryptionActivity : AppCompatActivity() {
                    bitMap = MediaStore.Images.Media.getBitmap(this.contentResolver,uri)
                    val outputStream = ByteArrayOutputStream()
                     bitMap!!.compress(Bitmap.CompressFormat.PNG,100,outputStream)
-                    Toast.makeText(this,"Image added successfully😀",Toast.LENGTH_SHORT).show()
+                    showToast("Image added successfully ",Toast.LENGTH_SHORT)
                 }
                 catch (e: Exception){
-                    Toast.makeText(this,"Failed to Open Gallery😔",Toast.LENGTH_SHORT).show()
+                    showToast("Failed to Open Gallery😞",Toast.LENGTH_SHORT)
                     e.printStackTrace()
                 }
             }
