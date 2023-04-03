@@ -1,14 +1,12 @@
 package com.example.shandilya.encrypto
 
-import android.app.Activity
+
 import android.app.Dialog
-import android.app.Notification.Action
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,13 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.IntegerRes
 import androidx.appcompat.app.AlertDialog
 import java.io.ByteArrayOutputStream
-import java.time.Duration
 
 class DecryptionActivity : AppCompatActivity() {
     private var key: EditText? = null
@@ -161,7 +156,7 @@ class DecryptionActivity : AppCompatActivity() {
     //For Decoding RGB Pixel Value and Least Significant Bit
     private fun terminatingDecode(color: Int, count: Int){
         val binary_To_String = Integer.toBinaryString(color)
-        decodeString = decodeString + binary_To_String[binary_To_String-1]
+        decodeString = decodeString + binary_To_String[binary_To_String.length-1]
 
         if(decodeString!!.length==48){
             if(decodeString!=validImage){
@@ -171,7 +166,7 @@ class DecryptionActivity : AppCompatActivity() {
         }
 
         if(decodeString.length%8==0){
-            val Toint = Integer.parseInt(decodeString.slice(decodeString-8..decodeString.length-1),2)
+            val Toint = Integer.parseInt(decodeString.slice(decodeString.length-8..decodeString.length-1),2)
         }
     }
 
