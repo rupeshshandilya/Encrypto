@@ -20,25 +20,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        //Request for User's Access to Write Storage
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-//            && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_PERMISSION)
-//        }
 
 
         //Requesting for user's camera permission
         if (ActivityCompat.checkSelfPermission(this.applicationContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_PERMISSION)
         }
-
-
-//        //Request for User's Access to Read Storage
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-//            && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_PERMISSION)
-//        }
-
+        
         encrypt = findViewById<Button>(R.id.encrypt) as Button
         decrypt = findViewById<Button>(R.id.decrypt) as Button
 
