@@ -10,6 +10,7 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import java.io.ByteArrayOutputStream
+import java.security.Key
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
 
 class DecryptionActivity : AppCompatActivity() {
     private var key: EditText? = null
@@ -27,6 +31,7 @@ class DecryptionActivity : AppCompatActivity() {
     private var decryptButton: Button? = null
     private var bitMap: Bitmap? = null
     private var decodeString: String = ""
+    private var finalString: String?= ""
 
 
     //To Check Whether image is valid or not
@@ -66,11 +71,18 @@ class DecryptionActivity : AppCompatActivity() {
             if(key!!.text.toString().length == 16){
                 if(bitMap != null){
                     Thread{
-                        this.runOnUiThread{
+                        this.runOnUiThread {
                             dialog.show()
-                            extractImage(bitMap!!)
                         }
+                            extractImage(bitMap!!)
+                        if(dataPresent == 1){
+                            //converting decode string to base64 for decrypting
+                            val baseString = converToBase64(decodeString)
 
+                            //decrypting final String
+                            finalString = decodestr(baseString)
+
+                        }
                     }
                 }
             }
@@ -92,6 +104,33 @@ class DecryptionActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun decodestr(baseString: String):String?{
+        val decryptKey: Key = SecretKeySpec(key!!.text.toString().toByteArray(),"AES")
+        val cipher: Cipher =  Cipher.getInstance("AES")
+        cipher.init(Cipher.DECRYPT_MODE,decryptKey)
+        var decrypt:ByteArray?=null
+        try {
+            decrypt = cipher.doFinal(Base64.decode(baseString,Base64.NO_WRAP or Base64.NO_PADDING))
+        }
+        catch (e:Exception){
+            runOnUiThread{
+                showToast("Entered Wrong Security Key",Toast.LENGTH_SHORT)
+            }
+        }
+        val string: String? = decrypt?.let { String(it) }
+        return  string
+    }
+
+    private fun converToBase64(decodeString: String): String{
+        var base64Str: String = ""
+        for(i in 0 .. decodeString.length-8 step 8){
+            val toInt = Integer.parseInt(decodeString.slice(i..i+7),2)
+            val tochar = toInt.toChar()
+            base64Str+=tochar
+        }
+        return base64Str
     }
 
     private fun extractImage(bitMap: Bitmap){
