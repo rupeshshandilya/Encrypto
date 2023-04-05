@@ -23,6 +23,7 @@
         android:maxLength="16"
         android:maxLines="1"
         android:textColor="@color/black"
+        android:inputType="textPassword"
         android:textColorHint="@color/black"
         android:background="@drawable/whitebg"
         android:textSize="15sp"
@@ -49,7 +50,7 @@
         android:layout_width="150dp"
         android:layout_height="90dp"
         android:ems="10"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         tools:visibility="visible"/>

@@ -175,7 +175,7 @@ class DecryptionActivity : AppCompatActivity() {
                     val index: Int = x * width + y
                     //bitwise shifting
                     val R: Int = array.get(index) shr 16 and 0xff
-                    val G: Int = array.get(index) shr 16 and 0xff
+                    val G: Int = array.get(index) shr 8 and 0xff
                     val B:Int = array.get(index) and 0xff
 
                     if(terminating(count) or (dataPresent == 0)){
@@ -228,8 +228,11 @@ class DecryptionActivity : AppCompatActivity() {
             }
         }
 
-        if(decodeString.length%8==0){
-            val Toint = Integer.parseInt(decodeString.slice(decodeString.length-8..decodeString.length-1),2)
+        if(decodeString.length%8==0) {
+            val Toint = Integer.parseInt(
+                decodeString.slice(decodeString.length - 8..decodeString.length - 1),
+                2
+            )
         }
     }
 
@@ -256,7 +259,7 @@ class DecryptionActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
-            data?.data.let { uri ->
+            data?.data?.let { uri ->
                 try{
                    bitMap = MediaStore.Images.Media.getBitmap(this.contentResolver,uri)
                    val outputStream = ByteArrayOutputStream()
