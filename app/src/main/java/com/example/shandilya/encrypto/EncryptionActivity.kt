@@ -143,6 +143,7 @@ class EncryptionActivity : AppCompatActivity() {
                     imageView!!.setImageBitmap(bitMap)
                     imageView!!.visibility = View.VISIBLE
                     image!!.setText("Change Image!!")
+                    image!!.setPadding(65,30,0,0)
                 }
                 catch (e: Exception){
                     Toast.makeText(this,"image is not selected try again please!",Toast.LENGTH_SHORT).show()
