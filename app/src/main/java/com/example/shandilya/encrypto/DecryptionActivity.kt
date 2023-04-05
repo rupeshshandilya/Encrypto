@@ -183,7 +183,7 @@ class DecryptionActivity : AppCompatActivity() {
                         break
                     }
                     else{
-                        terminatingDecode(R,count)
+                        terminatingDecode(R)
                         count++
                     }
 
@@ -192,7 +192,7 @@ class DecryptionActivity : AppCompatActivity() {
                         break
                     }
                     else{
-                        terminatingDecode(G,count)
+                        terminatingDecode(G)
                         count++
                     }
 
@@ -201,7 +201,7 @@ class DecryptionActivity : AppCompatActivity() {
                         break
                     }
                     else{
-                        terminatingDecode(B,count)
+                        terminatingDecode(B)
                         count++
                     }
 
@@ -217,7 +217,7 @@ class DecryptionActivity : AppCompatActivity() {
     }
 
     //For Decoding RGB Pixel Value and Least Significant Bit
-    private fun terminatingDecode(color: Int, count: Int){
+    private fun terminatingDecode(color: Int){
         val binary_To_String = Integer.toBinaryString(color)
         decodeString = decodeString + binary_To_String[binary_To_String.length-1]
 
@@ -226,13 +226,6 @@ class DecryptionActivity : AppCompatActivity() {
                 //Data is not present
                 dataPresent = 0
             }
-        }
-
-        if(decodeString.length%8==0) {
-            val Toint = Integer.parseInt(
-                decodeString.slice(decodeString.length - 8..decodeString.length - 1),
-                2
-            )
         }
     }
 
