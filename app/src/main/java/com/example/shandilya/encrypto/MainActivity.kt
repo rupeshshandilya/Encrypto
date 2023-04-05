@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         if (ActivityCompat.checkSelfPermission(this.applicationContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_PERMISSION)
         }
-        
+
         encrypt = findViewById<Button>(R.id.encrypt) as Button
         decrypt = findViewById<Button>(R.id.decrypt) as Button
 
