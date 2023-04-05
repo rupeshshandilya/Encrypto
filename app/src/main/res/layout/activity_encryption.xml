@@ -4,76 +4,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/encryption"
     android:orientation="vertical"
     tools:context=".EncryptionActivity">
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:src="@drawable/baseline_enhanced_encryption_24"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        />
 
     <EditText
         android:id="@+id/key"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="41dp"
         android:hint="Enter 16 digit key"
         android:maxLength="16"
         android:maxLines="1"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="15sp"
-        android:background="@color/white"
-        android:layout_margin="20dp"
+        android:background="@drawable/whitebg"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
         android:padding="10dp"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        />
 
     <EditText
         android:id="@+id/encryptData"
         android:textColor="@color/black"
+        android:layout_width="180dp"
+        android:layout_height="41dp"
         android:textColorHint="@color/black"
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:background="@drawable/whitebg"
         android:hint="Text to Encrypt"
         android:maxLines="1"
         android:focusableInTouchMode="false"
         android:padding="10dp"
         android:textSize="15sp"
-        />
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="41dp"
         android:hint="Add Image"
+        android:background="@drawable/button_shape"
         android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:background="@color/white"
-        android:layout_margin="20dp"
-        android:includeFontPadding="false"
-        android:textSize="15sp"
-        android:maxLines="1"
+        android:textColorHint="@color/white"
+        android:paddingTop="8dp"
+        android:paddingLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
         />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="150dp"
         android:layout_height="90dp"
-        android:layout_margin="20dp"
         android:layout_gravity="center"
         android:visibility="invisible"
+        android:layout_marginTop="10dp"
         tools:srcCompat = "@tools:sample/avatars"
         />
 
     <Button
         android:id="@+id/encryptBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_gravity="center"
+        android:layout_width="114dp"
+        android:layout_height="38dp"
         android:text="Encrypt"
-        android:textAllCaps="false"
-        android:fontFamily="monospace"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/colorAccent"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/encrypt_and_decrypt_btn"
         />
+
+<!--        <EditText-->
+<!--        android:id="@+id/key"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Enter 16 digit key"-->
+<!--        android:maxLength="16"-->
+<!--        android:maxLines="1"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="@color/black"-->
+<!--        android:textSize="15sp"-->
+<!--        android:background="@color/white"-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:padding="10dp" -->
+<!--            android:layout_marginTop="100dp"-->
+<!--        android:inputType="textPassword" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/encryptData"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="@color/black"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:background="@color/white"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:hint="Text to Encrypt"-->
+<!--        android:maxLines="1"-->
+<!--        android:focusableInTouchMode="false"-->
+<!--        android:padding="10dp"-->
+<!--        android:textSize="15sp"-->
+<!--        />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/image"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Add Image"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="@color/black"-->
+<!--        android:background="@color/white"-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:includeFontPadding="false"-->
+<!--        android:textSize="15sp"-->
+<!--        android:maxLines="1"-->
+<!--        />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView"-->
+<!--        android:layout_width="150dp"-->
+<!--        android:layout_height="90dp"-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:visibility="invisible"-->
+<!--        tools:srcCompat = "@tools:sample/avatars"-->
+<!--        />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/encryptBtn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:text="Encrypt"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:fontFamily="monospace"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:backgroundTint="@color/colorAccent"-->
+<!--        />-->
 
 </LinearLayout>
