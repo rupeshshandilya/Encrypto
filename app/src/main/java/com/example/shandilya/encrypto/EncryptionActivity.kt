@@ -96,7 +96,7 @@ class EncryptionActivity : AppCompatActivity() {
                             runOnUiThread{
                                 dialog.dismiss()
                             }
-                            //Reseting data
+                            //Resetting data
                             key!!.setText("")
                             encryptData!!.setText("")
                             imageView!!.visibility = View.INVISIBLE
