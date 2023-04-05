@@ -13,7 +13,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:layout_marginTop="60dp"
-        android:src="@drawable/baseline_lock_open_24"/>
+        android:src="@drawable/unlock"/>
 
     <EditText
         android:id="@+id/key"
@@ -65,68 +65,4 @@
         android:layout_gravity="center"
         android:background="@drawable/encrypt_and_decrypt_btn"
         />
-
-<!--    <EditText-->
-<!--        android:id="@+id/key"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Enter 16 digit key"-->
-<!--        android:maxLength="16"-->
-<!--        android:maxLines="1"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textColorHint="@color/black"-->
-<!--        android:textSize="15sp"-->
-<!--        android:background="@color/white"-->
-<!--        android:layout_margin="20dp"-->
-<!--        android:padding="10dp"-->
-<!--        android:inputType="textPassword"/>-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/image"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Add Image"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textColorHint="@color/black"-->
-<!--        android:background="@color/white"-->
-<!--        android:layout_margin="20dp"-->
-<!--        android:includeFontPadding="false"-->
-<!--        android:textSize="15sp"-->
-<!--        android:maxLines="1"-->
-<!--        />-->
-
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Data:"-->
-<!--        android:textColorHint="@color/white"-->
-<!--        android:layout_margin="20dp"-->
-<!--        />-->
-<!--    -->
-
-<!--        <TextView-->
-<!--            android:id="@+id/decodedText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="150dp"-->
-<!--            android:layout_margin="20dp"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:ems="10"-->
-<!--            android:textColor="#000000"-->
-<!--            tools:visibility="visible" />-->
-<!--    -->
-
-<!--    <Button-->
-<!--        android:id="@+id/decryptBtn"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="20dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:text="Decrypt"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:fontFamily="monospace"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:backgroundTint="@color/colorAccent"-->
-<!--        />-->
-
-
 </LinearLayout>

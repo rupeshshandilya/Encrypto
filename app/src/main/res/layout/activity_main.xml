@@ -19,7 +19,7 @@
             android:layout_height="74dp"
             android:layout_gravity="center"
             android:layout_marginTop="110dp"
-            android:src="@drawable/encrypt" />
+            android:src="@drawable/lock" />
 
         <Button
             android:id="@+id/encrypt"
@@ -53,7 +53,7 @@
             android:layout_height="74dp"
             android:layout_gravity="center"
             android:layout_marginTop="110dp"
-            android:src="@drawable/decrpyt" />
+            android:src="@drawable/unlock" />
 
         <Button
             android:id="@+id/decrypt"
