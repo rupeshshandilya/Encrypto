@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var encrypt = findViewById<Button>(R.id.encrypt)
-        var decrypt = findViewById<Button>(R.id.decrypt)
+        val encrypt = findViewById<Button>(R.id.encrypt)
+        val decrypt = findViewById<Button>(R.id.decrypt)
 
         encrypt.setOnClickListener(){
             intent = Intent(this,EncryptionActivity::class.java)
