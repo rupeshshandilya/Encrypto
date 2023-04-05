@@ -75,16 +75,40 @@ class DecryptionActivity : AppCompatActivity() {
                             dialog.show()
                         }
                             extractImage(bitMap!!)
-                        if(dataPresent == 1){
+                        if(dataPresent == 1) {
                             //converting decode string to base64 for decrypting
                             val baseString = converToBase64(decodeString)
 
                             //decrypting final String
                             finalString = decodestr(baseString)
 
+                            this.runOnUiThread {
+                                dialog.dismiss()
+                                finalString?.let { it }
+
+                                decodeText!!.text = finalString
+                                decodeText!!.visibility = View.VISIBLE
+
+                                decodeString = ""
+                                finalString = ""
+                                dataPresent = 1
+                            }
                         }
-                    }
+                            else{
+                                runOnUiThread {
+                                    dialog.dismiss()
+                                    showToast("No data present in image", Toast.LENGTH_SHORT)
+                                }
+                            }
+                    }.start()
                 }
+                else{
+                    showToast("Image is not found",Toast.LENGTH_SHORT)
+                }
+            }
+            else{
+                val keySize = key!!.text.toString().length
+                showToast("Key size must be $keySize",Toast.LENGTH_SHORT)
             }
         }
 
