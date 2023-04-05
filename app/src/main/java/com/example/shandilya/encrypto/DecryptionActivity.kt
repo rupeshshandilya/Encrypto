@@ -100,6 +100,8 @@ class DecryptionActivity : AppCompatActivity() {
                                     showToast("No data present in image", Toast.LENGTH_SHORT)
                                 }
                             }
+                        //Resetting Data
+                        key!!.setText("")
                     }.start()
                 }
                 else{
