@@ -61,8 +61,8 @@ class DecryptionActivity : AppCompatActivity() {
         val dialog:Dialog = builder!!.create()
 
         decodeText!!.setOnClickListener {
-            //To Copy Text if Text is present 
-            if(decodeText!!.text.toString().length != 0) {
+            //To Copy Text if Text is present
+            if(decodeText!!.text.toString().length > 0) {
                 val clipManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("text", decodeText!!.text.toString())
                 clipManager.setPrimaryClip(clipData)
