@@ -1,16 +1,10 @@
 package com.example.shandilya.encrypto
 
-import android.Manifest
-import android.content.Context
+
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,12 +16,12 @@ class MainActivity : AppCompatActivity() {
         val encrypt = findViewById<Button>(R.id.encrypt)
         val decrypt = findViewById<Button>(R.id.decrypt)
 
-        encrypt.setOnClickListener(){
+        encrypt.setOnClickListener{
             intent = Intent(this,EncryptionActivity::class.java)
             startActivity(intent)
         }
 
-        decrypt.setOnClickListener(){
+        decrypt.setOnClickListener{
             intent = Intent(this,DecryptionActivity::class.java)
             startActivity(intent)
         }

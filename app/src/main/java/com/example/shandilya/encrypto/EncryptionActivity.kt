@@ -23,7 +23,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import java.security.Key
 import android.util.Base64
-import android.util.Log
 import android.widget.Toast
 import java.io.File
 import java.io.FileOutputStream
